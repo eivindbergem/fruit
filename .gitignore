@@ -1,0 +1,4 @@
+*~
+.fruit
+*.pyc
+__pycache__
