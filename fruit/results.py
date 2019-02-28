@@ -1,4 +1,5 @@
 import time
+import uuid
 from . import result_storage as storage
 # from .misc import git_commit
 
@@ -16,7 +17,7 @@ class Experiment(dict):
         self.generate_metadata()
 
     def generate_metadata(self):
-        pass
+        self.add_metadata('id', str(uuid.uuid4()))
 
     def add_result(self, key, value):
         self['results'][key] = value
@@ -33,5 +34,14 @@ class Experiment(dict):
         if self['results']:
             self.save()
 
+        try:
+            self.get_path().rmdir()
+        except OSError as err:
+            if err.errno != 66:
+                raise
+
     def save(self):
         storage.insert(self, self.only_journal)
+
+    def get_path(self):
+        return storage.experiment_path(self)

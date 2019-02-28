@@ -68,3 +68,9 @@ class Storage(object):
 
             for filename in journals:
                 filename.unlink()
+
+    def experiment_path(self, ex):
+        path = self.path / "ex" / ex['metadata']['id']
+        path.mkdir(parents=True, exist_ok=True)
+
+        return path
