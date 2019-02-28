@@ -36,9 +36,8 @@ class Experiment(dict):
 
         try:
             self.get_path().rmdir()
-        except OSError as err:
-            if err.errno != 66:
-                raise
+        except OSError:
+            pass
 
     def save(self):
         storage.insert(self, self.only_journal)
