@@ -4,6 +4,12 @@ import shutil
 from pathlib import Path
 
 from .misc import lockfile, add_suffix
+class JsonEncoder(json.JSONEncoder):
+     def default(self, obj):
+         if isinstance(obj, Path):
+             return str(obj)
+
+         return json.JSONEncoder.default(self, obj)
 
 class Storage(object):
     def __init__(self, path):
@@ -49,7 +55,7 @@ class Storage(object):
     def insert_journal(self, item):
         with self.lock():
             with open(self.journal_path() / str(time.time()), "w") as fd:
-                json.dump(item, fd)
+                json.dump(item, fd, cls=JsonEncoder)
 
     def merge_journal(self):
         with self.lock():
