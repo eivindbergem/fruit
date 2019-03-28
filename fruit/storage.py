@@ -53,7 +53,7 @@ class Storage(object):
         return path
 
     def lock(self):
-        filename = self.path / "fuit.lock"
+        filename = self.path / "fruit.lock"
 
         return lockfile(filename)
 
